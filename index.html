@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade Calculator</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <script src="./script.js"></script>
+    <div class="card">
+        <div class="title">Grade Calculator</div>
+        <div class="inputarea">
+            <input type="text" class="Ginput" placeholder="Psychology" id="Psychology">
+            <input type="text" class="Ginput" placeholder="Maths" id="Maths">
+            <input type="text" class="Ginput" placeholder="English" id="English">
+            <input type="text" class="Ginput" placeholder="Biology" id="Biology">
+            <input type="text" class="Ginput" placeholder="Anthoropology" id="Anthoropology">
+            <input type="text" class="Ginput" placeholder="Geography" id="Geography">
+            <input type="text" class="Ginput" placeholder="GlobalT" id="GlobalT">
+            <button onclick="CalcG()">calculate</button>
+        </div>
+    </div>
+    <div class="displaygrade" id = "disp">
+        
+    </div>
+</body>
+<script>
+    
+
+    function CalcG(){
+        var grade = {
+        "A":4,
+        "A-":3.75,
+        "B+":3.5,
+        "B":3
+    };
+        var m = grade[document.getElementById('Maths').value] * 3;
+        var p = grade[document.getElementById('Psychology').value] * 3;
+        var e = grade[document.getElementById('English').value] * 2;
+        var b = grade[document.getElementById('Biology').value] * 3;
+        var a = grade[document.getElementById('Anthoropology').value] * 2;
+        var g = grade[document.getElementById('Geography').value] * 3;
+        var gt = grade[document.getElementById('GlobalT').value] * 2;
+
+        var av = (m+p+e+b+a+g+gt)/(18);
+        var disp = document.getElementById('disp');
+        disp.innerHTML = av;
+    }
+</script>
+</html>
