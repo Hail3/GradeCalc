@@ -13,21 +13,68 @@
   <div class="card">
     <div class="title">Grade Calculator</div>
     <div class="inputarea">
-      <input type="text" class="Ginput" placeholder="Psychology" id="Psychology">
-      <input type="text" class="Ginput" placeholder="Maths" id="Maths">
-      <input type="text" class="Ginput" placeholder="English" id="English">
-      <input type="text" class="Ginput" placeholder="Biology" id="Biology">
-      <input type="text" class="Ginput" placeholder="Anthoropology" id="Anthoropology">
-      <input type="text" class="Ginput" placeholder="Geography" id="Geography">
-      <input type="text" class="Ginput" placeholder="GlobalT" id="GlobalT">
+      <input type="text" class="Ginput" placeholder="Psychology" id="Psychology" value="A">
+      <input type="text" class="Ginput" placeholder="Maths" id="Maths" value="A">
+      <input type="text" class="Ginput" placeholder="English" id="English" value="A">
+      <input type="text" class="Ginput" placeholder="Biology" id="Biology" value="A">
+      <input type="text" class="Ginput" placeholder="Anthoropology" id="Anthoropology" value="A">
+      <input type="text" class="Ginput" placeholder="Geography" id="Geography" value="A">
+      <input type="text" class="Ginput" placeholder="GlobalT" id="GlobalT" value="A">
       <button onclick="CalcG()">calculate</button>
     </div>
-  </div>
-  <div class="displaygrade" id="disp">
 
+    <div class="displaygrade" id="disp"> </div>
+  </div>
+  <div class="gradeTable" id="Gtable">
+    <div class="gr" id="A">
+      <div class="label">A </div> <input value="4" id="Ag"></input>
+    </div>
+    <div class="gr" id="A-">
+      <div class="label">A- </div> <input value="3.75" id="A-g"></input>
+    </div>
+    <div class="gr" id="B+">
+      <div class="label">B+ </div> <input value="3.5" id="B+g"></input>
+    </div>
+    <div class="gr" id="B">
+      <div class="label">B </div> <input value="3" id="Bg"></input>
+    </div>
+    <div class="gr" id="B-">
+      <div class="label">B- </div> <input value="2.75" id="B-g"></input>
+    </div>
+    <div class="gr" id="C+">
+      <div class="label">C+ </div> <input value="2.5" id="C+g"></input>
+    </div>
+    <div class="gr" id="C">
+      <div class="label">C </div> <input value="2" id="Cg"></input>
+    </div>
+  </div>
+  <div class="CreditHrs" id="CreditHrs">
+    <div class="chr" id="psyc">
+      <div class="label">Psyc </div> <input value="3" id="psycg"></input>
+    </div>
+    <div class="chr" id="ma">
+      <div class="label">Math </div> <input value="3" id="mag"></input>
+    </div>
+    <div class="chr" id="eng">
+      <div class="label">English </div> <input value="3" id="engg"></input>
+    </div>
+    <div class="chr" id="bio">
+      <div class="label">Bio </div> <input value="3" id="biog"></input>
+    </div>
+    <div class="chr" id="anthro">
+      <div class="label">Anthro </div> <input value="2" id="anthrog"></input>
+    </div>
+    <div class="chr" id="geo">
+      <div class="label">Geo </div> <input value="3" id="geog"></input>
+    </div>
+    <div class="chr" id="global">
+      <div class="label">Global </div> <input value="2" id="globalg"></input>
+    </div>
   </div>
 </body>
 <script>
+
+
 
   function smallBig(grade) {
     var letter = "";
@@ -38,25 +85,37 @@
   }
 
   function CalcG() {
-    var grade = {
-      "A": 4,
-      "A-": 3.75,
-      "B+": 3.5,
-      "B": 3,
-      "B-": 2.75,
-      "C+": 2.5,
-      "C": 2
-    };
 
-    var m = grade[smallBig(document.getElementById('Maths').value)] * 3;
-    var p = grade[smallBig(document.getElementById('Psychology').value)] * 3;
-    var e = grade[smallBig(document.getElementById('English').value)] * 2;
-    var b = grade[smallBig(document.getElementById('Biology').value)] * 3;
-    var a = grade[smallBig(document.getElementById('Anthoropology').value)] * 2;
-    var g = grade[smallBig(document.getElementById('Geography').value)] * 3;
-    var gt = grade[smallBig(document.getElementById('GlobalT').value)] * 2;
+    var grade = {};
+    var gradeInputs = document.querySelectorAll('.gr input');
+    gradeInputs.forEach(input => {
+      var key = input.parentElement.id;
+      var value = parseFloat(input.value);
+      grade[key] = value;
+    });
 
-    var av = (m + p + e + b + a + g + gt) / (18);
+
+    var creditHrs = {};
+    var creditHrsInputs = document.querySelectorAll('.CreditHrs input');
+    creditHrsInputs.forEach(input => {
+      var key = input.parentElement.id;
+      var value = parseFloat(input.value);
+      creditHrs[key] = value;
+    });
+
+
+    var m = grade[smallBig(document.getElementById('Maths').value)] * creditHrs['ma'];
+    var p = grade[smallBig(document.getElementById('Psychology').value)] * creditHrs['psyc'];
+    var e = grade[smallBig(document.getElementById('English').value)] * creditHrs['eng'];
+    var b = grade[smallBig(document.getElementById('Biology').value)] * creditHrs['bio'];
+    var a = grade[smallBig(document.getElementById('Anthoropology').value)] * creditHrs['anthro'];
+    var g = grade[smallBig(document.getElementById('Geography').value)] * creditHrs['geo'];
+    var gt = grade[smallBig(document.getElementById('GlobalT').value)] * creditHrs['global'];
+
+
+    var totalCreditHrs = Object.values(creditHrs).reduce((acc, val) => acc + val, 0);
+    var av = (m + p + e + b + a + g + gt) / (totalCreditHrs);
+
     var disp = document.getElementById('disp');
     disp.innerHTML = av;
   }
